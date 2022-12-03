@@ -6,6 +6,7 @@ use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,12 +22,16 @@ class HomepageController extends AbstractController
     }
 
     #[Route('/', name: 'app_homepage')]
-    public function index(): Response
+    public function index(Request $request ,PaginatorInterface $paginator): Response
     {
-        $contacts = $this->contactRepository->findAll();
+        $pagination = $paginator->paginate(
+            $this->contactRepository->getAllQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
 
         return $this->render('homepage/index.html.twig', [
-            'contacts' => $contacts,
+            'contacts' => $pagination,
         ]);
     }
 
@@ -59,6 +64,6 @@ class HomepageController extends AbstractController
         $this->entityManager->remove($contact);
         $this->entityManager->flush();
 
-        $this->redirectToRoute('app_homepage');
+        return $this->redirectToRoute('app_homepage');
     }
 }
