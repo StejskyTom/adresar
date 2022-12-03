@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nový uživatel{% endblock %}
+
+{% block body %}
+{{ form_start(form) }}
+    <div class="col-sm-6 mb-3">
+        {{ form_label(form.name,'Jméno', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-sm-6 mb-3">
+        {{ form_label(form.surname,'Příjmení', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-sm-6 mb-3">
+        {{ form_label(form.phone,'Telefon', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.phone, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-sm-6 mb-3">
+        {{ form_label(form.email,'Email', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="col-sm-6 mb-3">
+        {{ form_label(form.note,'Poznámka', {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.note, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Uložit</button>
+    </div>
+{{ form_end(form) }}
+
+{% endblock %}
