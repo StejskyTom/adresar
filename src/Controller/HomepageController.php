@@ -5,9 +5,9 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\ContactRepository;
+use App\Services\StringService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,7 +57,7 @@ class HomepageController extends AbstractController
             $this->entityManager->flush();
 
             $identifier = $contact->getSurname().'-'.$contact->getId();
-            $identifier = $this->getSluggedString($identifier);
+            $identifier = StringService::getSluggedString($identifier);
 
             $contact->setIdentifier($identifier);
 
@@ -92,11 +92,5 @@ class HomepageController extends AbstractController
         $fullName = $contact->getName().' '.$contact->getSurname();
 
         return new JsonResponse(array('note' => $contact->getNote(), 'fullName' => $fullName ));
-    }
-
-    private function getSluggedString(string $text): String
-    {
-        $slugger = new AsciiSlugger();
-        return $slugger->slug($text)->lower();
     }
 }
