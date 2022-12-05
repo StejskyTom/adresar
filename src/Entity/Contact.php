@@ -25,6 +25,9 @@ class Contact
     #[ORM\Column(type: 'string', length: 255)]
     private $email;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $identifier;
+
     #[ORM\Column(type: 'text', nullable: true)]
     private $note;
 
@@ -77,6 +80,18 @@ class Contact
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getIdentifier(): ?string
+    {
+        return $this->identifier;
+    }
+
+    public function setIdentifier(string $identifier): self
+    {
+        $this->identifier = $identifier;
 
         return $this;
     }

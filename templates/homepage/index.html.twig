@@ -12,6 +12,26 @@
             })
         })
     </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script>
+        $('.bnt-note').on('click', function () {
+            var id = this.id;
+            $.ajax({
+                url: '/get-user-info',
+                type: "GET",
+                data: {
+                    id: id
+                },
+                contentType: "application/json",
+                success: function (result) {
+                    $('#contactName').text(result.fullName);
+                    $('#contactNote').text(result.note);
+                }
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -38,13 +58,13 @@
                 <td>{{ contact.email }}</td>
                 <td>
                     <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" id="{{ contact.id }}" class="btn btn-primary bnt-note" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Zobrazit poznámku
                     </button>
 
                 </td>
                 <td>
-                    <a href="{{ path('app_edit', {'id': contact.id}) }}" class="btn btn-warning">Upravit</a>
+                    <a href="{{ path('app_edit', {'identifier': contact.identifier}) }}" class="btn btn-warning">Upravit</a>
                     <a href="{{ path('app_delete', {'id': contact.id}) }}" class="btn btn-danger delete">Smazat</a>
                 </td>
             </tr>
@@ -62,10 +82,10 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Poznámka - {{ contacts[0].name }} {{ contacts[0].surname }}</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Poznámka - <span id="contactName"></span></h1>
                 </div>
-                <div class="modal-body">
-                    {{ contacts[0].note }}
+                <div id="contactNote" class="modal-body">
+                    Poznámka uživatele
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zavřít</button>

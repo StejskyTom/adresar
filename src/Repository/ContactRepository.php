@@ -45,6 +45,16 @@ class ContactRepository extends ServiceEntityRepository
         return   $this->createQueryBuilder('c')->getQuery();
     }
 
+    public function getByIdentifier(string $identifier): Contact
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.identifier = :identifier')
+            ->setParameter('identifier', $identifier)
+            ->getQuery()
+            ->setMaxResults(1)
+            ->getOneOrNullResult();
+    }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */
